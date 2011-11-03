@@ -51,7 +51,7 @@ for my $attr(qw/flowgram_values flow_index_per_base quality_scores/) {
 		},
 	);
 	no strict 'refs';
-	*$attr = subname($attr, sub {
+	*{$attr} = subname($attr, sub {
 		return @{ $_[0]->$meth };
 	});
 }

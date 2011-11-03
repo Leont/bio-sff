@@ -61,7 +61,7 @@ has _number_of_flows_per_read => (
 sub _read_bytes {
 	my ($self, $num) = @_;
 	my $buffer;
-	die "Could not read SFF file: $!" if not defined read $self->_fh, $buffer, $num;
+	croak "Could not read SFF file: $!" if not defined read $self->_fh, $buffer, $num;
 	return $buffer;
 }
 
@@ -89,12 +89,12 @@ sub _build_file {
 	return $header;
 }
 
-my $read_template = "Nnnnn A%d";
+my $read_template = 'Nnnnn A%d';
 my @header_keys = qw/number_of_bases clip_qual_left clip_qual_right clip_adaptor_left clip_adaptor_right name/;
 
 sub read_entry {
 	my $self = shift;
-	return undef if $self->_current_read >= $self->number_of_reads;
+	return if $self->_current_read >= $self->number_of_reads;
 	
 	my %entry;
 	@entry{qw/read_header_length name_length/} = unpack "nn", $self->_read_bytes(4);
