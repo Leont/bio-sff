@@ -6,7 +6,9 @@ use Moo;
 
 use Bio::SFF::Entry;
 use Bio::SFF::File;
+use Carp qw/croak/;
 use Config;
+use Scalar::Util qw/reftype/;
 
 sub _roundup {
 	my $number = shift;
@@ -14,58 +16,37 @@ sub _roundup {
 	return $number + ($remain ? 8 - $remain : 0);
 }
 
+around BUILDARGS => sub {
+	my ($orig, $class, @args) = @_;
+	 
+	unshift @args, 'file' if @args % 2 == 1 and ref($_[0]) ne 'HASH';
+
+	return $class->$orig(@args);
+};
+
 has _fh => (
-	is => 'ro',
+	is       => 'ro',
 	required => 1,
-	init_arg => 'fh',
-);
-
-has file => (
-	is => 'ro',
-	init_arg => undef,
-	builder => '_build_file',
-	lazy => 1,
-);
-
-sub BUILD {
-	my $self = shift;
-	$self->file;
-	return;
-}
-
-has number_of_reads => (
-	is => 'ro',
-	init_arg => undef,
-	default => sub {
-		my $self = shift;
-		return $self->file->number_of_reads;
+	init_arg => 'file',
+	isa      => sub {
+		reftype($_[0]) eq 'GLOB';
 	},
-	lazy => 1,
+	coerce   => sub {
+		my $val = shift;
+		return $val if ref($val);
+		open my $fh, '<:raw', $val or croak "Could open file $val: $!";
+		return $fh;
+	}
 );
 
-has _current_read => (
-	is => 'rw',
-	init_arg => undef,
-	default => sub { 0 },
-);
-
-has _number_of_flows_per_read => (
+has header => (
 	is => 'ro',
+	init_arg => undef,
+	builder => '_build_header',
 	lazy => 1,
-	default => sub {
-		my $self = shift;
-		return $self->file->number_of_flows;
-	},
 );
 
-sub _read_bytes {
-	my ($self, $num) = @_;
-	my $buffer;
-	croak "Could not read SFF file: $!" if not defined read $self->_fh, $buffer, $num;
-	return $buffer;
-}
-
-sub _build_file {
+sub _build_header {
 	my $self = shift;
 	my $idx_off_type = $] >= 5.010 && $Config{use64bitint} ? 'Q>' : 'x[N]N';
 	my $templ = "a4N $idx_off_type N2n3C";
@@ -87,6 +68,38 @@ sub _build_file {
 	);
 
 	return $header;
+}
+
+has number_of_reads => (
+	is => 'ro',
+	init_arg => undef,
+	default => sub {
+		my $self = shift;
+		return $self->header->number_of_reads;
+	},
+	lazy => 1,
+);
+
+has _current_read => (
+	is => 'rw',
+	init_arg => undef,
+	default => sub { 0 },
+);
+
+has _number_of_flows_per_read => (
+	is => 'ro',
+	lazy => 1,
+	default => sub {
+		my $self = shift;
+		return $self->header->number_of_flows;
+	},
+);
+
+sub _read_bytes {
+	my ($self, $num) = @_;
+	my $buffer;
+	croak "Could not read SFF file: $!" if not defined read $self->_fh, $buffer, $num;
+	return $buffer;
 }
 
 my $read_template = 'Nnnnn A%d';
