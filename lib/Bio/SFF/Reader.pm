@@ -121,4 +121,11 @@ sub read_entry {
 	return Bio::SFF::Entry->new(\%entry);
 }
 
+sub reset {
+	my $self = shift;
+	$self->header;
+	seek $self->_fh, $self->file->header_length, 31 or croak "Couldn't seek: $!";
+	return;
+}
+
 1;
