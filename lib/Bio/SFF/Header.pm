@@ -1,4 +1,4 @@
-package Bio::SFF::File;
+package Bio::SFF::Header;
 
 use Sub::Name;
 use Moo;

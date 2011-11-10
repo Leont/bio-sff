@@ -5,7 +5,7 @@ use warnings;
 use Moo;
 
 use Bio::SFF::Entry;
-use Bio::SFF::File;
+use Bio::SFF::Header;
 use Carp qw/croak/;
 use Config;
 use Scalar::Util qw/reftype/;
@@ -53,7 +53,7 @@ sub _build_header {
 	my ($magic, $version, $index_offset, $index_length, $number_of_reads, $header_length, $key_length, $number_of_flows_per_read, $flowgram_format_code) = unpack $templ, $self->_read_bytes(31);
 	my ($flow_chars, $key_sequence) = unpack sprintf('A%dA%d', $number_of_flows_per_read, $key_length), $self->_read_bytes($header_length - 31);
 
-	my $header = Bio::SFF::File->new(
+	my $header = Bio::SFF::Header->new(
 		magic => $magic,
 		version => $version,
 		index_offset => $index_offset,
