@@ -57,3 +57,44 @@ for my $attr(qw/flowgram_values flow_index_per_base quality_scores/) {
 }
 
 1;
+
+#ABSTRACT: An SFF entry
+
+__END__
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=attr name
+
+The name of this sequence
+
+=attr bases
+
+The nucleotides of this sequence
+
+=attr clip_qual_left
+
+The first base after the clipping point for quality, using 1-based indexing.
+
+=attr clip_qual_right
+
+The last base before the clipping point for quality, using 1-based indexing.
+
+=attr clip_adaptor_left
+
+The first base after the clipping point for quality, using 1-based indexing.
+
+=attr clip_adaptor_right
+
+The last base before the clipping point for quality, using 1-based indexing.
+
+=attr flowgram_values
+
+Returns an array containing all flowgram values. 
+
+=attr flow_index_per_base
+
+=attr quality_scores
+

@@ -129,3 +129,37 @@ sub reset {
 }
 
 1;
+
+#ABSTRACT: An SFF reader
+
+__END__
+
+=head1 SYNOPSIS
+
+=head1 DESCRIPTION
+
+=method new(...)
+
+This method creates a new SFF object
+
+=over 4
+
+=item * file
+
+This 
+
+=back
+
+=method read_entry()
+
+Read an entry and return it as a Bio::SFF:Entry object.
+
+=method reset()
+
+Reset the iterator to the start of the file.
+
+=method header()
+
+Returns the L<Bio::SFF::Header|Bio::SFF::Header> object associated with this reader.
+
+=cut
