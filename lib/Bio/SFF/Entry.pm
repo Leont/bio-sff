@@ -5,7 +5,7 @@ use Moo;
 
 use Scalar::Util qw/looks_like_number/;
 
-for my $attr (qw/number_of_bases clip_qual_left clip_qual_right clip_adaptor_left clip_adaptor_right/) {
+for my $attr (qw/clip_qual_left clip_qual_right clip_adaptor_left clip_adaptor_right/) {
 	has $attr => (
 		is => 'ro',
 		required => 1,

@@ -70,7 +70,7 @@ sub _build_header {
 	return $header;
 }
 
-has number_of_reads => (
+has _number_of_reads => (
 	is => 'ro',
 	init_arg => undef,
 	default => sub {
@@ -103,18 +103,18 @@ sub _read_bytes {
 }
 
 my $read_template = 'Nnnnn A%d';
-my @header_keys = qw/number_of_bases clip_qual_left clip_qual_right clip_adaptor_left clip_adaptor_right name/;
+my @header_keys = qw/clip_qual_left clip_qual_right clip_adaptor_left clip_adaptor_right name/;
 
 sub read_entry {
 	my $self = shift;
-	return if $self->_current_read >= $self->number_of_reads;
+	return if $self->_current_read >= $self->_number_of_reads;
 	
 	my %entry;
 	@entry{qw/read_header_length name_length/} = unpack "nn", $self->_read_bytes(4);
-	@entry{@header_keys} = unpack sprintf($read_template, $entry{name_length}), $self->_read_bytes($entry{read_header_length} - 4);
+	(my ($number_of_bases), @entry{@header_keys}) = unpack sprintf($read_template, $entry{name_length}), $self->_read_bytes($entry{read_header_length} - 4);
 
-	my $data_template = sprintf 'A%dA%dA%dA%d', 2 * $self->_number_of_flows_per_read, ($entry{number_of_bases}) x 3;
-	my $data_length = _roundup(2 * $self->_number_of_flows_per_read + 3 * $entry{number_of_bases});
+	my $data_template = sprintf 'A%dA%dA%dA%d', 2 * $self->_number_of_flows_per_read, ($number_of_bases) x 3;
+	my $data_length = _roundup(2 * $self->_number_of_flows_per_read + 3 * $number_of_bases);
 	@entry{qw/flowgram_values flow_index_per_base bases quality_scores/} = unpack $data_template, $self->_read_bytes($data_length);
 
 	$self->_current_read($self->_current_read + 1);
