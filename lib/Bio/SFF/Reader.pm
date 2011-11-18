@@ -1,6 +1,4 @@
 package Bio::SFF::Reader;
-use strict;
-use warnings;
 
 use Moo;
 
@@ -8,12 +6,20 @@ use Bio::SFF::Entry;
 use Bio::SFF::Header;
 use Carp qw/croak/;
 use Config;
+use Const::Fast;
 use Scalar::Util qw/reftype/;
+
+const my $bits64 => 8;
+const my $header_size => 31;
+const my $entry_header_size => 4;
+const my $idx_off_type => ($] >= 5.010 && $Config{use64bitint} ? 'Q>' : 'x[N]N');
+const my $size_of_flowgram_value => 2;
+const my $uses_number_of_bases => 3;
 
 sub _roundup {
 	my $number = shift;
-	my $remain = $number % 8;
-	return $number + ($remain ? 8 - $remain : 0);
+	my $remain = $number % $bits64;
+	return $number + ($remain ? $bits64 - $remain : 0);
 }
 
 around BUILDARGS => sub {
@@ -33,7 +39,7 @@ has _fh => (
 	},
 	coerce   => sub {
 		my $val = shift;
-		return $val if ref($val);
+		return $val if ref $val;
 		open my $fh, '<:raw', $val or croak "Could open file $val: $!";
 		return $fh;
 	}
@@ -46,12 +52,12 @@ has header => (
 	lazy => 1,
 );
 
+## no critic (Subroutines::ProhibitUnusedPrivateSubroutines,Subroutines::ProhibitBuiltinHomonyms)
 sub _build_header {
 	my $self = shift;
-	my $idx_off_type = $] >= 5.010 && $Config{use64bitint} ? 'Q>' : 'x[N]N';
 	my $templ = "a4N $idx_off_type N2n3C";
-	my ($magic, $version, $index_offset, $index_length, $number_of_reads, $header_length, $key_length, $number_of_flows_per_read, $flowgram_format_code) = unpack $templ, $self->_read_bytes(31);
-	my ($flow_chars, $key_sequence) = unpack sprintf('A%dA%d', $number_of_flows_per_read, $key_length), $self->_read_bytes($header_length - 31);
+	my ($magic, $version, $index_offset, $index_length, $number_of_reads, $header_length, $key_length, $number_of_flows_per_read, $flowgram_format_code) = unpack $templ, $self->_read_bytes($header_size);
+	my ($flow_chars, $key_sequence) = unpack sprintf('A%dA%d', $number_of_flows_per_read, $key_length), $self->_read_bytes($header_length - $header_size);
 
 	my $header = Bio::SFF::Header->new(
 		magic => $magic,
@@ -110,11 +116,11 @@ sub read_entry {
 	return if $self->_current_read >= $self->_number_of_reads;
 	
 	my %entry;
-	@entry{qw/read_header_length name_length/} = unpack "nn", $self->_read_bytes(4);
-	(my ($number_of_bases), @entry{@header_keys}) = unpack sprintf($read_template, $entry{name_length}), $self->_read_bytes($entry{read_header_length} - 4);
+	@entry{qw/read_header_length name_length/} = unpack 'nn', $self->_read_bytes($entry_header_size);
+	(my ($number_of_bases), @entry{@header_keys}) = unpack sprintf($read_template, $entry{name_length}), $self->_read_bytes($entry{read_header_length} - $entry_header_size);
 
-	my $data_template = sprintf 'A%dA%dA%dA%d', 2 * $self->_number_of_flows_per_read, ($number_of_bases) x 3;
-	my $data_length = _roundup(2 * $self->_number_of_flows_per_read + 3 * $number_of_bases);
+	my $data_template = sprintf 'A%dA%dA%dA%d', $size_of_flowgram_value * $self->_number_of_flows_per_read, ($number_of_bases) x $uses_number_of_bases;
+	my $data_length = _roundup($size_of_flowgram_value * $self->_number_of_flows_per_read + $uses_number_of_bases * $number_of_bases);
 	@entry{qw/flowgram_values flow_index_per_base bases quality_scores/} = unpack $data_template, $self->_read_bytes($data_length);
 
 	$self->_current_read($self->_current_read + 1);
@@ -124,7 +130,7 @@ sub read_entry {
 sub reset {
 	my $self = shift;
 	$self->header;
-	seek $self->_fh, $self->file->header_length, 31 or croak "Couldn't seek: $!";
+	seek $self->_fh, $self->file->header_length, 0 or croak "Couldn't seek: $!";
 	return;
 }
 

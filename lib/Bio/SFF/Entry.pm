@@ -1,7 +1,7 @@
 package Bio::SFF::Entry;
 
-use Sub::Name;
 use Moo;
+use Sub::Name;
 
 use Scalar::Util qw/looks_like_number/;
 
