@@ -142,6 +142,12 @@ __END__
 
 =head1 SYNOPSIS
 
+ my $reader = Bio::SFF::Reader(file => $filename);
+ while (my $entry = $reader->read_entry) {
+     say '>', $entry->name;
+     say $entry->bases;
+ }
+
 =head1 DESCRIPTION
 
 =method new(...)
@@ -152,7 +158,7 @@ This method creates a new SFF object
 
 =item * file
 
-This 
+The file that should be read. This can either be a filename or a filehandle.
 
 =back
 

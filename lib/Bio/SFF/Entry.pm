@@ -64,7 +64,14 @@ __END__
 
 =head1 SYNOPSIS
 
+ while(my $entry = $reader->read_entry) {
+     say '>', $entry->name;
+     say $entry->bases;
+ }
+
 =head1 DESCRIPTION
+
+This object represents an entry in an SFF file. It contains both processed data (the nucleotides and quality scores) and raw data (e.g. flowgram values).
 
 =attr name
 
@@ -73,6 +80,18 @@ The name of this sequence
 =attr bases
 
 The nucleotides of this sequence
+
+=attr flowgram_values
+
+Returns an array containing all flowgram values. 
+
+=attr flow_index_per_base
+
+This contains the flow positions for each base in the called sequence (i.e., for each base, the position in the flowgram whose estimate resulted in that base being called). These values are "incremental" values, meaning that the stored position is the offset from the previous flow index in the field. All position values (prior to their incremental encoding) use 1-based indexing, so the first flow is flow 1.
+
+=attr quality_scores
+
+The quality scores for each of the bases in the sequence, where the values use the standard -log10 probability scale.
 
 =attr clip_qual_left
 
@@ -89,12 +108,4 @@ The first base after the clipping point for quality, using 1-based indexing.
 =attr clip_adaptor_right
 
 The last base before the clipping point for quality, using 1-based indexing.
-
-=attr flowgram_values
-
-Returns an array containing all flowgram values. 
-
-=attr flow_index_per_base
-
-=attr quality_scores
 

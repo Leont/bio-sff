@@ -31,6 +31,10 @@ for my $attr(qw/flow_chars key_sequences/) {
 
 __END__
 
+=head1 DESCRIPTION
+
+This object represents the header of an SFF file. You probably don't want to deal with this in any way.
+
 =attr magic
 
 The magic bytes at the start of any SFF file, this is always C<779314790>.
