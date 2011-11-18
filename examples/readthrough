@@ -6,4 +6,4 @@ use Bio::SFF::Reader;
 die 'No argument given' if not @ARGV;
 my $reader = Bio::SFF::Reader->new(file => $ARGV[0]);
 
-1 while $reader->read_entry;
+1 while $reader->next_entry;

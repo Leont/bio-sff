@@ -64,7 +64,7 @@ __END__
 
 =head1 SYNOPSIS
 
- while(my $entry = $reader->read_entry) {
+ while(my $entry = $reader->next_entry) {
      say '>', $entry->name;
      say $entry->bases;
  }

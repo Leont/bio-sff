@@ -6,4 +6,4 @@ use JSON;
 use Bio::SFF::Reader;
 die 'No argument given' if not @ARGV;
 my $reader = Bio::SFF::Reader->new(file => $ARGV[0]);
-print encode_json({ %{ $reader->read_entry} });
+print to_json({ %{ $reader->next_entry} }, {pretty => 1});

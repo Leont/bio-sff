@@ -103,7 +103,7 @@ sub _read_bytes {
 my $read_template = 'Nnnnn A%d';
 my @header_keys = qw/clip_qual_left clip_qual_right clip_adaptor_left clip_adaptor_right name/;
 
-sub read_entry {
+sub next_entry {
 	my $self = shift;
 	return if $self->_current_read >= $self->_number_of_reads;
 	
@@ -135,7 +135,7 @@ __END__
 =head1 SYNOPSIS
 
  my $reader = Bio::SFF::Reader(file => $filename);
- while (my $entry = $reader->read_entry) {
+ while (my $entry = $reader->next_entry) {
      say '>', $entry->name;
      say $entry->bases;
  }
@@ -154,7 +154,7 @@ The file that should be read. This can either be a filename or a filehandle.
 
 =back
 
-=method read_entry()
+=method next_entry()
 
 Read an entry and return it as a Bio::SFF:Entry object.
 
