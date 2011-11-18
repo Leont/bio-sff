@@ -22,14 +22,6 @@ sub _roundup {
 	return $number + ($remain ? $bits64 - $remain : 0);
 }
 
-around BUILDARGS => sub {
-	my ($orig, $class, @args) = @_;
-	 
-	unshift @args, 'file' if @args % 2 == 1 and ref($_[0]) ne 'HASH';
-
-	return $class->$orig(@args);
-};
-
 has _fh => (
 	is       => 'ro',
 	required => 1,
@@ -39,7 +31,7 @@ has _fh => (
 	},
 	coerce   => sub {
 		my $val = shift;
-		return $val if ref $val;
+		return $val if reftype($val) eq 'GLOB';
 		open my $fh, '<:raw', $val or croak "Could open file $val: $!";
 		return $fh;
 	}
