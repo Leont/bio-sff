@@ -31,7 +31,7 @@ has _fh => (
 	},
 	coerce   => sub {
 		my $val = shift;
-		return $val if reftype($val) eq 'GLOB';
+		return $val if ref($val) and reftype($val) eq 'GLOB';
 		open my $fh, '<:raw', $val or croak "Could open file $val: $!";
 		return $fh;
 	}
