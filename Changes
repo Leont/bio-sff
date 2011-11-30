@@ -2,6 +2,9 @@ Revision history for Bio-SFF
 
 {{$NEXT}}
 
+0.002     2011-11-30 15:11:36 Europe/Amsterdam
+          Made input checking for file argument more robust
+
 0.001     2011-11-18 16:59:00 Europe/Amsterdam
           Initial release
 
