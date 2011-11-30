@@ -134,7 +134,7 @@ __END__
 
 =head1 SYNOPSIS
 
- my $reader = Bio::SFF::Reader(file => $filename);
+ my $reader = Bio::SFF::Reader->new(file => $filename);
  while (my $entry = $reader->next_entry) {
      say '>', $entry->name;
      say $entry->bases;
