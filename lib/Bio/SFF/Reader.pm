@@ -122,7 +122,7 @@ sub next_entry {
 sub reset {
 	my $self = shift;
 	$self->header;
-	seek $self->_fh, $self->file->header_length, 0 or croak "Couldn't seek: $!";
+	$self->_fh->seek($self->header->header_length, SEEK_SET) or croak "Couldn't seek: $!";
 	return;
 }
 
