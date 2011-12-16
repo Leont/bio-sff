@@ -5,7 +5,7 @@ use Sub::Name;
 
 use Scalar::Util qw/looks_like_number/;
 
-for my $attr (qw/magic version index_offset index_length number_of_reads header_length key_length number_of_flows flowgram_format_code/) {
+for my $attr (qw/magic version index_offset index_length number_of_reads header_length key_length number_of_flows_per_read flowgram_format_code/) {
 	has $attr => (
 		is => 'ro',
 		required => 1,
