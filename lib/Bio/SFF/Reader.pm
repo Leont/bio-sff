@@ -9,7 +9,7 @@ use Config;
 use Const::Fast;
 use Scalar::Util qw/reftype/;
 
-const my $bits64 => 8;
+const my $padding_to => 8;
 const my $header_size => 31;
 const my $entry_header_size => 4;
 const my $idx_off_type => ($] >= 5.010 && $Config{use64bitint} ? 'Q>' : 'x[N]N');
@@ -18,8 +18,8 @@ const my $uses_number_of_bases => 3;
 
 sub _roundup {
 	my $number = shift;
-	my $remain = $number % $bits64;
-	return $number + ($remain ? $bits64 - $remain : 0);
+	my $remain = $number % $padding_to;
+	return $number + ($remain ? $padding_to - $remain : 0);
 }
 
 has _fh => (
@@ -31,7 +31,7 @@ has _fh => (
 	},
 	coerce   => sub {
 		my $val = shift;
-		return $val if ref($val) and reftype($val) eq 'GLOB';
+		return $val if ref $val and reftype($val) eq 'GLOB';
 		open my $fh, '<:raw', $val or croak "Could open file $val: $!";
 		return $fh;
 	}
@@ -156,7 +156,7 @@ The file that should be read. This can either be a filename or a filehandle.
 
 =method next_entry()
 
-Read an entry and return it as a Bio::SFF:Entry object.
+Read an entry and return it as a L<Bio::SFF:Entry|Bio::SFF::Entry> object.
 
 =method reset()
 
