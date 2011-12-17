@@ -3,6 +3,7 @@ Revision history for Bio-SFF
 {{$NEXT}}
           Added support for indices
           Restructured into a sequential and a random-access reader
+          Added more examples
           Fixed reset()
           Rename number_of_flows to number_of_flows_per_read
 
