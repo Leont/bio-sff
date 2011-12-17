@@ -20,3 +20,14 @@ sub offset_of {
 }
 
 1;
+
+#ABSTRACT: SFF index object
+
+__END__
+
+=begin Pod::Coverage
+
+offset_of
+
+=end Pod::Coverage
+

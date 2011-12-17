@@ -1,6 +1,6 @@
 package Bio::SFF;
 use strict;
-use warnings;
+use warnings FATAL => 'all';
 
 1;
 
@@ -10,7 +10,7 @@ __END__
 
 =head1 DESCRIPTION
 
-This distribution offers various SFF modules. Currently only a L<reader|Bio::SFF::Reader> is provided, in the future a writer will follow
+This distribution offers various SFF modules. Currently only two L<readers|Bio::SFF::Reader> are provided, in the future a writer will follow.
 
 =head1 SEE ALSO
 
