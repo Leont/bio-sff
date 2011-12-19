@@ -1,6 +1,8 @@
 Revision history for Bio-SFF
 
 {{$NEXT}}
+
+0.003     2011-12-19 15:16:46 Europe/Amsterdam
           Added support for indices
           Restructured into a sequential and a random-access reader
           Added unit tests
