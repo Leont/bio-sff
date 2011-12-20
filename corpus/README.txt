@@ -1,3 +1,6 @@
+The files in this directory were taken from BioPython, the origals can be
+found at https://github.com/biopython/biopython/tree/master/Tests/Roche.
+
 Created with Roche tools from E3MFGYR02.sff, extracting 10 random reads:
 
 * E3MFGYR02_random_10_reads.sff - has an .mft1.00 style index and manifest
