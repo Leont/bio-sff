@@ -2,6 +2,9 @@ Revision history for Bio-SFF
 
 {{$NEXT}}
 
+0.004     2011-12-20 14:36:50 Europe/Amsterdam
+          Explicitly load IO::File for perl<5.14 compatibility
+
 0.003     2011-12-19 15:16:46 Europe/Amsterdam
           Added support for indices
           Restructured into a sequential and a random-access reader
