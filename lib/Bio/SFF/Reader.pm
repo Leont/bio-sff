@@ -63,7 +63,6 @@ sub _build_header {
 		index_length => _roundup($index_length),
 		number_of_reads => $number_of_reads,
 		header_length => _roundup($header_length),
-		key_length => $key_length,
 		number_of_flows_per_read => $number_of_flows_per_read,
 		flowgram_format_code => $flowgram_format_code,
 		flow_chars => $flow_chars,
