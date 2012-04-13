@@ -109,3 +109,10 @@ The first base after the clipping point for quality, using 1-based indexing.
 
 The last base before the clipping point for quality, using 1-based indexing.
 
+=begin Pod::Coverage
+
+flow_index_per_base_raw
+flowgram_values_raw
+quality_scores_raw
+
+=end Pod::Coverage

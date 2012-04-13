@@ -25,9 +25,16 @@ sub offset_of {
 
 __END__
 
-=begin Pod::Coverage
+=head1 DESCRIPTION
 
-offset_of
+This class represents the index of an SFF file.
 
-=end Pod::Coverage
+=method manifest()
 
+This returns the (XML) manifest as a bytestring.
+
+=method offset_of($name)
+
+This returns the offset of a specific entry in the SFF file.
+
+=cut

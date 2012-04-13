@@ -75,4 +75,8 @@ The array of nucleotide bases ('A', 'C', 'G' or 'T') that correspond to the nucl
 
 The nucleotide bases of the key sequence used for the reads.
 
+=attr number_of_flows_per_read
+
+The number of flowgram values in each entry.
+
 =cut
