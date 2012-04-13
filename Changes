@@ -1,6 +1,8 @@
 Revision history for Bio-SFF
 
 {{$NEXT}}
+
+0.005     2012-04-13 12:05:11 Europe/Amsterdam
           use FileHandle instead of IO::Handle, for perl<5.12 compatibility
 
 0.004     2011-12-20 14:36:50 Europe/Amsterdam
