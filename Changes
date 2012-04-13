@@ -1,6 +1,7 @@
 Revision history for Bio-SFF
 
 {{$NEXT}}
+          use FileHandle instead of IO::Handle, for perl<5.12 compatibility
 
 0.004     2011-12-20 14:36:50 Europe/Amsterdam
           Explicitly load IO::File for perl<5.14 compatibility

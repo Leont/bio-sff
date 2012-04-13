@@ -8,7 +8,7 @@ use Carp qw/croak/;
 use Config;
 use Const::Fast;
 use Fcntl qw/SEEK_SET/;
-use IO::File;
+use FileHandle;
 use Scalar::Util qw/reftype/;
 
 const my $padding_to => 8;
