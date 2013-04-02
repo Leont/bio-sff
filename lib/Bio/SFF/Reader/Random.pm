@@ -2,9 +2,6 @@ package Bio::SFF::Reader::Random;
 
 use Moo;
 
-sub _has_index;
-with 'Bio::SFF::Reader';
-
 use Bio::SFF::Index;
 use Carp qw/croak/;
 use Const::Fast;
@@ -21,6 +18,8 @@ has _index => (
 	lazy => 1,
 	predicate => '_has_index'
 );
+
+with 'Bio::SFF::Reader';
 
 sub _build_index {
 	my $self = shift;

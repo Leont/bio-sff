@@ -1,6 +1,7 @@
 Revision history for Bio-SFF
 
 {{$NEXT}}
+          Made compatible recent Moo/Method::Generate::Accessor
 
 0.005     2012-04-13 12:05:11 Europe/Amsterdam
           use FileHandle instead of IO::Handle, for perl<5.12 compatibility
