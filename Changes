@@ -1,6 +1,8 @@
 Revision history for Bio-SFF
 
 {{$NEXT}}
+
+0.006     2013-04-02 13:10:27 Europe/Amsterdam
           Made compatible recent Moo/Method::Generate::Accessor
 
 0.005     2012-04-13 12:05:11 Europe/Amsterdam
