@@ -20,7 +20,7 @@ for my $attr(qw/flow_chars key_sequences/) {
 		is => 'ro',
 		required => 1,
 		isa => sub {
-			return defined and ref($_[0]) eq '';
+			return defined && ref($_[0]) eq '';
 		},
 	);
 }

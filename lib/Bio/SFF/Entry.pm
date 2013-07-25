@@ -20,7 +20,7 @@ for my $attr (qw/name bases/){
 		is => 'ro',
 		required => 1,
 		isa => sub {
-			return defined and ref($_[0]) eq '';
+			return defined && ref($_[0]) eq '';
 		},
 	);
 }
@@ -38,7 +38,7 @@ for my $attr(qw/flowgram_values flow_index_per_base quality_scores/) {
 		required => 1,
 		init_arg => $attr,
 		isa => sub {
-			return defined and ref($_[0]) eq '';
+			return defined && ref($_[0]) eq '';
 		},
 	);
 	my $meth = "_$attr";
