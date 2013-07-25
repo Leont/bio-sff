@@ -2,6 +2,9 @@ Revision history for Bio-SFF
 
 {{$NEXT}}
 
+0.007     2013-07-25 15:59:50 Europe/Amsterdam
+          Fixed various precedence issues
+
 0.006     2013-04-02 13:10:27 Europe/Amsterdam
           Made compatible recent Moo/Method::Generate::Accessor
 
